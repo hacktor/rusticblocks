@@ -30,5 +30,5 @@ You need a computer with the rustc compiler and cargo installed.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
