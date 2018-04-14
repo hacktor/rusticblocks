@@ -14,6 +14,7 @@ You need a computer with the rustc compiler and cargo installed.
 * cd rusticblocks
 * cargo run --bin example
 
+```
      Finished dev [unoptimized + debuginfo] target(s) in 0.0 secs
      Running `target/debug/example`
  Block { index: 0, timestamp: 0, data: "This is the Rustic Genesis Block", prevhash: 0, myhash: 0 }
@@ -21,6 +22,7 @@ You need a computer with the rustc compiler and cargo installed.
  Block { index: 2, timestamp: 1523709837, data: "This is block number 2", prevhash: 9392592759503862021, myhash: 5683024740449102550 }
  Block { index: 3, timestamp: 1523709837, data: "This is block number 3", prevhash: 5683024740449102550, myhash: 11846245409687764979 }
  Block { index: 4, timestamp: 1523709837, data: "This is block number 4", prevhash: 11846245409687764979, myhash: 7340726335388511881 }
+```
 
 ## Authors
 
