@@ -1,0 +1,6 @@
+[package]
+name = "rusticblocks"
+version = "0.1.1"
+authors = ["ruben"]
+
+[dependencies]
