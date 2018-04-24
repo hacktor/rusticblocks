@@ -12,9 +12,10 @@ pub struct Block {
     myhash: u64,
 }
 impl Block {
-    fn somehash(prev: &Block, data: &str) -> u64 {
+    fn somehash(b: &Block) -> u64 {
         let mut hasher = DefaultHasher::new();
-        (prev.myhash.to_string() + &data).hash(&mut hasher);
+        (b.index.to_string() + &b.timestamp.to_string() + &b.data.to_string() + &b.prevhash.to_string() + &b.myhash.to_string())
+            .hash(&mut hasher);
         hasher.finish()
     }
     pub fn init() -> Block {
@@ -32,7 +33,7 @@ impl Block {
             timestamp: SystemTime::now().duration_since(UNIX_EPOCH).expect("Time went backwards").as_secs(),
             data: data.to_string(),
             prevhash: prev.myhash,
-            myhash: Block::somehash(prev,data),
+            myhash: Block::somehash(prev),
         }
     }
 }
