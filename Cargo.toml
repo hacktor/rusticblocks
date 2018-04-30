@@ -1,6 +1,10 @@
 [package]
-name = "rusticblocks"
-version = "0.1.1"
-authors = ["ruben"]
+name = "blockchain"
+version = "0.1.0"
+authors = ["hacktor"]
 
 [dependencies]
+serde = "1.0"
+serde_derive = "1.0"
+serde_json = "1.0"
+rand = "0.4"

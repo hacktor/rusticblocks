@@ -1,40 +1,60 @@
+extern crate serde_json;
+extern crate serde;
+
+#[macro_use]
+extern crate serde_derive;
+
 use std::collections::hash_map::DefaultHasher;
 use std::hash::{Hash, Hasher};
 use std::time::{UNIX_EPOCH, SystemTime};
 
-#[derive(Debug)]
-#[derive(Hash)]
+#[derive(Hash, Serialize, Deserialize)]
+pub struct Transaction {
+    pub timestamp: u64,
+    pub payload: String,
+}
+
+#[derive(Hash, Serialize, Deserialize)]
 pub struct Block {
     index: u64,
     timestamp: u64,
-    data: String,
+    transactions: Vec<Transaction>,
     prevhash: u64,
     myhash: u64,
 }
 impl Block {
-    fn somehash(b: &Block) -> u64 {
+    fn somehash(text: &str) -> u64 {
         let mut hasher = DefaultHasher::new();
-        (b.index.to_string() + &b.timestamp.to_string() + &b.data.to_string() + &b.prevhash.to_string() + &b.myhash.to_string())
+        text.to_string()
             .hash(&mut hasher);
         hasher.finish()
     }
     pub fn init() -> Block {
+        let t = Transaction {
+            timestamp: 0,
+            payload: "This is the Genesis Block".to_owned(),
+        };
         Block {
             index: 0,
             timestamp: 0,
             prevhash: 0,
             myhash: 0,
-            data: "This is the Rustic Genesis Block".to_string(),
+            transactions: vec![t],
         }
     }
-    pub fn next(prev: &Block, data: &str) -> Block {
+    pub fn next(prev: &Block, t: Vec<Transaction>) -> Block {
+        let index = prev.index + 1;
+        let timestamp = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("Time went backwards")
+            .as_secs();
+        let json = serde_json::to_string(&t).expect("Transactions are not jsonifyable");
         Block {
-            index: prev.index + 1,
-            timestamp: SystemTime::now().duration_since(UNIX_EPOCH).expect("Time went backwards").as_secs(),
-            data: data.to_string(),
+            index: index,
+            timestamp: timestamp,
+            transactions: t,
             prevhash: prev.myhash,
-            myhash: Block::somehash(prev),
+            myhash: Block::somehash(&(index.to_string() + &timestamp.to_string() + &json + &prev.myhash.to_string())),
         }
     }
 }
-
