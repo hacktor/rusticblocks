@@ -1,8 +1,8 @@
-extern crate blockchain;
+extern crate rusticblocks;
 extern crate serde_json;
 
 use std::time::{UNIX_EPOCH, SystemTime};
-use blockchain::Transaction;
+use rusticblocks::Transaction;
 
 fn main() {
     let transaction = Transaction { 

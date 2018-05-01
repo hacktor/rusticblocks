@@ -1,8 +1,8 @@
-extern crate blockchain;
+extern crate rusticblocks;
 extern crate serde_json;
 extern crate rand;
 
-use blockchain::{Block, Transaction};
+use rusticblocks::{Block, Transaction};
 use std::time::{UNIX_EPOCH, SystemTime};
 use rand::Rng;
 
