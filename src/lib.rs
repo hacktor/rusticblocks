@@ -13,6 +13,14 @@ pub struct Transaction {
     pub timestamp: u64,
     pub payload: String,
 }
+impl Clone for Transaction {
+    fn clone(&self) -> Transaction {
+        Transaction {
+            timestamp: self.timestamp,
+            payload: self.payload.to_string(),
+        }
+    }
+}
 
 #[derive(Hash, Serialize, Deserialize)]
 pub struct Block {
@@ -56,5 +64,32 @@ impl Block {
             prevhash: prev.myhash,
             myhash: Block::somehash(&(index.to_string() + &timestamp.to_string() + &json + &prev.myhash.to_string())),
         }
+    }
+}
+
+pub struct Blockchain {
+    chain: Vec<Block>,
+}
+impl Blockchain {
+    pub fn init() -> Blockchain {
+        Blockchain {
+            chain: Vec::new(),
+        }
+    }
+    pub fn getblock(&mut self, index: u64) -> Block {
+        // normalize index, then we need a deep copy
+        let index = if index > self.chain.len() as u64 { self.chain.len() as u64 } else { index }; 
+        // must return Block; for now, always the last one
+        let last = self.chain.last().expect("Last Should not be none");
+        Block { 
+            index: last.index,
+            timestamp: last.timestamp,
+            prevhash: last.prevhash,
+            myhash: last.myhash,
+            transactions: last.transactions.clone(),
+        }
+    }
+    pub fn addblock(&mut self, block: Block) {
+        self.chain.push(block);
     }
 }
